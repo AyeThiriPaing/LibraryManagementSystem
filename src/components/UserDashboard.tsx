@@ -192,7 +192,7 @@ export function UserDashboard({ session, handleLogout }: UserDashboardProps) {
       {/* Header Section */}
       <header style={{ padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#FFFFFF', boxShadow: '0 4px 20px rgba(139, 94, 60, 0.05)', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ flex: '0 0 240px', cursor: 'pointer' }} onClick={() => setActiveView('catalogue')}>
-          <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800, color: '#8B5E3C' }}>Library Portal</h1>
+          <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800, color: '#8B5E3C' }}>Members Portal</h1>
           <p style={{ margin: '2px 0 0', color: '#A67C52', fontSize: '0.85rem', fontWeight: 600 }}>Welcome back, {session.name}</p>
         </div>
 

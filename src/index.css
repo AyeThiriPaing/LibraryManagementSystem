@@ -1,0 +1,16 @@
+:root {
+  --primary: #8B5E3C;
+  --secondary: #D4A373;
+  --bg-beige: #FAF3E0;
+  --card-white: #FFFFFF;
+  --accent-gold: #F59E0B;
+  --text-dark: #3E2C23;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-beige);
+  color: var(--text-dark);
+  min-height: 100vh;
+}

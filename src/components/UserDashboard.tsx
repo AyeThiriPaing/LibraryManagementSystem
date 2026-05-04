@@ -189,21 +189,43 @@ export function UserDashboard({ session, handleLogout }: UserDashboardProps) {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#FAF3E0', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: '#3E2C23' }}>
+      <style>{`
+        @media (max-width: 1023px) {
+          .portal-header { padding: 16px 24px !important; }
+          .portal-search { margin: 0 20px !important; }
+          .portal-main { padding: 24px !important; }
+          .portal-book-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important; gap: 16px !important; }
+          .portal-loan-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; }
+          .portal-fav-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important; gap: 16px !important; }
+        }
+        @media (max-width: 639px) {
+          .portal-header { padding: 14px 16px !important; flex-wrap: wrap !important; }
+          .portal-logo { flex: 1 !important; order: 1; }
+          .portal-logo h1 { font-size: 1.2rem !important; }
+          .portal-search { flex: 0 0 100% !important; max-width: 100% !important; margin: 10px 0 0 !important; order: 3; }
+          .portal-actions { flex: 0 0 auto !important; order: 2; }
+          .portal-main { padding: 16px !important; }
+          .portal-book-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+          .portal-loan-grid { grid-template-columns: 1fr !important; }
+          .portal-fav-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+          .portal-section-title { font-size: 1.4rem !important; }
+        }
+      `}</style>
       {/* Header Section */}
-      <header style={{ padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#FFFFFF', boxShadow: '0 4px 20px rgba(139, 94, 60, 0.05)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ flex: '0 0 240px', cursor: 'pointer' }} onClick={() => setActiveView('catalogue')}>
+      <header className="portal-header" style={{ padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#FFFFFF', boxShadow: '0 4px 20px rgba(139, 94, 60, 0.05)', position: 'sticky', top: 0, zIndex: 100 }}>
+        <div className="portal-logo" style={{ flex: '0 0 240px', cursor: 'pointer' }} onClick={() => setActiveView('catalogue')}>
           <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800, color: '#8B5E3C' }}>Members Portal</h1>
           <p style={{ margin: '2px 0 0', color: '#A67C52', fontSize: '0.85rem', fontWeight: 600 }}>Welcome back, {session.name}</p>
         </div>
 
-        <div style={{ flex: 1, maxWidth: '600px', margin: '0 40px', position: 'relative' }}>
+        <div className="portal-search" style={{ flex: 1, maxWidth: '600px', margin: '0 40px', position: 'relative' }}>
           <span style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#8B5E3C', pointerEvents: 'none' }}>
             <i className="fa-solid fa-magnifying-glass"></i>
           </span>
           <input type="text" placeholder="Search by book title or author..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={searchInputStyle} />
         </div>
 
-        <div style={{ flex: '0 0 240px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '20px', position: 'relative' }}>
+        <div className="portal-actions" style={{ flex: '0 0 240px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '20px', position: 'relative' }}>
           <div ref={dropdownRef} style={{ position: 'relative' }}>
             <motion.div whileTap={{ scale: 0.95 }} onClick={() => setShowProfileDropdown(!showProfileDropdown)} style={avatarStyle}>
               {session.name.charAt(0).toUpperCase()}
@@ -227,7 +249,7 @@ export function UserDashboard({ session, handleLogout }: UserDashboardProps) {
         </div>
       </header>
 
-      <main style={{ padding: '40px' }}>
+      <main className="portal-main" style={{ padding: '40px' }}>
         <AnimatePresence mode="wait">
           {activeView === 'catalogue' && (
             <motion.div key="catalogue" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }}>
@@ -254,7 +276,7 @@ export function UserDashboard({ session, handleLogout }: UserDashboardProps) {
                 {loading ? (
                   <div style={loadingContainerStyle}><motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }} style={spinnerStyle} /></div>
                 ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '24px' }}>
+                  <div className="portal-book-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '24px' }}>
                     {filteredBooks.map((book) => (
                       <BookCard 
                         key={book.id} book={book} 
@@ -276,9 +298,9 @@ export function UserDashboard({ session, handleLogout }: UserDashboardProps) {
           {activeView === 'borrowed' && (
             <motion.div key="borrowed" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }}>
               <button onClick={() => setActiveView('catalogue')} style={backButtonStyle}>← Back to Catalogue</button>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#8B5E3C', marginBottom: '8px' }}>My Borrowed Books</h2>
+              <h2 className="portal-section-title" style={{ fontSize: '2rem', fontWeight: 800, color: '#8B5E3C', marginBottom: '8px' }}>My Borrowed Books</h2>
               {myLoans.length > 0 ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+                <div className="portal-loan-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
                   {myLoans.map((loan) => <LoanCard key={loan.id} loan={loan} />)}
                 </div>
               ) : ( <EmptyState message="You haven't borrowed any books yet." /> )}
@@ -288,9 +310,9 @@ export function UserDashboard({ session, handleLogout }: UserDashboardProps) {
           {activeView === 'favourites' && (
             <motion.div key="favourites" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }}>
               <button onClick={() => setActiveView('catalogue')} style={backButtonStyle}>← Back to Catalogue</button>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#8B5E3C', marginBottom: '8px' }}>My Favourites</h2>
+              <h2 className="portal-section-title" style={{ fontSize: '2rem', fontWeight: 800, color: '#8B5E3C', marginBottom: '8px' }}>My Favourites</h2>
               {books.filter(b => favouriteIds.includes(b.id)).length > 0 ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '24px' }}>
+                <div className="portal-fav-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '24px' }}>
                   {books.filter(b => favouriteIds.includes(b.id)).map((book) => (
                     <BookCard 
                       key={book.id} book={book} isFavourite={true}
